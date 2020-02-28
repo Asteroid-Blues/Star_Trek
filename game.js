@@ -20,9 +20,10 @@ window.onload = function() {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
       parent: "thegame",
-      width: 750,
-      height: 1334
+      width: 1750,
+      height: 3334
     },
+    
     
     scene: playGame,
     
@@ -42,7 +43,7 @@ window.onload = function() {
 }
 
 class playGame extends Phaser.Scene{
-    
+
   constructor() {
     super("PlayGame");
   }
@@ -52,14 +53,22 @@ class playGame extends Phaser.Scene{
       frameWidth: 466,
       frameHeight: 465
     });
+    this.load.spritesheet("enterprise", "Art/Enterprise.png", {
+      frameWidth: 254,
+      frameHeight: 373
+    });
+    this.load.spritesheet("voyager", "Art/Voyager.png", {
+      frameWidth: 203,
+      frameHeight: 466
+    });
   }
-  
+
   create() {
     this.canSummonHero = true;
     this.matter.world.update30Hz();
     this.matter.world.setBounds(0, -400, game.config.width, game.config.height + 800);
     this.createLevel();
-    
+    game.add.image(game.world.centerX, game.world.centerY, 'Enterprise1').anchor.set(0.5);
     this.input.on("pointerdown", this.releaseHero, this);
     
     this.matter.world.on("collisionstart", function(e, b1, b2) {
@@ -108,7 +117,7 @@ class playGame extends Phaser.Scene{
       if (iterations == gameOptions.maxIterations) {
         break;
       } else {
-        let item = this.matter.add.image(point.x, point.y, "items");
+        let item = this.matter.add.image(point.x, point.y, "voyager");
         item.setCircle();
         item.setStatic(true);
         this.gameItems.add(item);
@@ -137,7 +146,7 @@ class playGame extends Phaser.Scene{
   releaseHero(e) {
     if (this.canSummonHero) {
       this.canSummonHero = false;
-      let item = this.matter.add.image(e.x, -200, "items");
+      let item = this.matter.add.image(e.x, -200, "enterprise");
       item.setCircle();
       item.setBounce(1);
       item.body.label = HERO;
