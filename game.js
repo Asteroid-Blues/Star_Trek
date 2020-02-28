@@ -10,7 +10,7 @@ let gameOptions = {
 const HERO = 0;
 const COIN = 1;
 const SKULL = 2;
-
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create });
 window.onload = function() {
   let gameConfig = {
     
@@ -49,10 +49,8 @@ class playGame extends Phaser.Scene{
   }
   
   preload() {
-    this.load.spritesheet("items", "Art/Enterprise1.png", {
-      frameWidth: 466,
-      frameHeight: 465
-    });
+    game.load.image("items", "Art/Enterprise1.png",
+    );
     this.load.spritesheet("enterprise", "Art/Enterprise.png", {
       frameWidth: 254,
       frameHeight: 373
@@ -68,7 +66,7 @@ class playGame extends Phaser.Scene{
     this.matter.world.update30Hz();
     this.matter.world.setBounds(0, -400, game.config.width, game.config.height + 800);
     this.createLevel();
-    game.add.image(game.world.centerX, game.world.centerY, 'Enterprise1').anchor.set(0.5);
+    game.add.image(game.world.centerX, game.world.centerY, 'items').anchor.set(0.5);
     this.input.on("pointerdown", this.releaseHero, this);
     
     this.matter.world.on("collisionstart", function(e, b1, b2) {
