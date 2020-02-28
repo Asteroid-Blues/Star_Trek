@@ -6,7 +6,7 @@ let gameOptions = {
   maxIterations: 10,
   minItemsDistance: 160
 }
-
+var music;
 const HERO = 0;
 const COIN = 1;
 const SKULL = 2;
@@ -49,6 +49,7 @@ class playGame extends Phaser.Scene{
   }
   
   preload() {
+    
     this.load.image("background", "Art/Background.png",
     );
     this.load.spritesheet("enterprise", "Art/Enterprise.png", {
@@ -62,6 +63,7 @@ class playGame extends Phaser.Scene{
   }
 
   create() {
+    
     this.add.image(833.5,1750,'background')
     this.canSummonHero = true;
     this.matter.world.update30Hz();
