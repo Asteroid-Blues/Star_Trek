@@ -2,7 +2,7 @@ let game;
 
 let gameOptions = {
   gravity: 1,
-  maxItemsPerLevel: 30,
+  maxItemsPerLevel: 10,
   maxIterations: 10,
   minItemsDistance: 160
 }
@@ -10,7 +10,7 @@ let gameOptions = {
 const HERO = 0;
 const COIN = 1;
 const SKULL = 2;
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create });
+
 window.onload = function() {
   let gameConfig = {
     
@@ -49,11 +49,11 @@ class playGame extends Phaser.Scene{
   }
   
   preload() {
-    game.load.image("items", "Art/Enterprise1.png",
+    this.load.image("background", "Art/Background.png",
     );
     this.load.spritesheet("enterprise", "Art/Enterprise.png", {
-      frameWidth: 254,
-      frameHeight: 373
+      frameWidth: 1750,
+      frameHeight: 3334
     });
     this.load.spritesheet("voyager", "Art/Voyager.png", {
       frameWidth: 203,
@@ -62,11 +62,15 @@ class playGame extends Phaser.Scene{
   }
 
   create() {
+    this.add.image(833.5,1750,'background')
     this.canSummonHero = true;
     this.matter.world.update30Hz();
     this.matter.world.setBounds(0, -400, game.config.width, game.config.height + 800);
     this.createLevel();
-    game.add.image(game.world.centerX, game.world.centerY, 'items').anchor.set(0.5);
+    var score = 0;
+    var scoreText;
+    
+    scoreText = this.add.text(650, 3000, 'WARP SPEED: 9.8!!!', { fontSize: '100px', fill: '#FFF555' });
     this.input.on("pointerdown", this.releaseHero, this);
     
     this.matter.world.on("collisionstart", function(e, b1, b2) {
@@ -98,7 +102,10 @@ class playGame extends Phaser.Scene{
           
       }
     }, this);
+    
+
   }
+
   
   createLevel() {
     this.gameItems = this.add.group();
@@ -125,8 +132,9 @@ class playGame extends Phaser.Scene{
           item.body.label = COIN;
         } else {
           item.setFrame(2);
-          item.body.label = SKULL;
+          item.body.label = COIN;
         }
+        
       }
     }
   }
@@ -136,6 +144,9 @@ class playGame extends Phaser.Scene{
     this.gameItems.getChildren().forEach(function(item) {
       if (item.getCenter().distance(p) < gameOptions.minItemsDistance) {
         overlap = true;
+        
+
+        
       }
     })
     return overlap;
@@ -148,6 +159,9 @@ class playGame extends Phaser.Scene{
       item.setCircle();
       item.setBounce(1);
       item.body.label = HERO;
+      
     }
+  
   }
+  
 };
